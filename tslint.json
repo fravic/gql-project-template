@@ -1,14 +1,6 @@
 {
-  "defaultSeverity": "error",
-  "extends": [
-    "tslint:recommended"
-  ],
-  "jsRules": {},
+  "rulesDirectory": ["tslint-plugin-prettier"],
   "rules": {
-    "arrow-parens": false,
-    "interface-name": false,
-    "ordered-imports": true,
-    "quotemark": false
-  },
-  "rulesDirectory": []
+    "prettier": true
+  }
 }
