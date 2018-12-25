@@ -1,18 +1,18 @@
 // tslint:disable:no-console
 import "reflect-metadata";
 
-import { ApolloServer } from 'apollo-server-express';
-import * as express from 'express';
-import { importSchema } from 'graphql-import';
+import { ApolloServer } from "apollo-server-express";
+import * as express from "express";
+import { importSchema } from "graphql-import";
 import { createConnection } from "typeorm";
 
-import resolvers from './be/resolvers';
-import { setupNextJSApp } from './fe';
-import ormConfig from './ormconfig';
+import resolvers from "./be/resolvers";
+import { setupNextJSApp } from "./fe";
+import ormConfig from "./ormconfig";
 
 interface ServerOptions {
-  backendOnly?: boolean;  // Enable to test the graphql server only
-  database?: any;         // Override the database to connect to (eg. for testing)
+  backendOnly?: boolean; // Enable to test the graphql server only
+  database?: any; // Override the database to connect to (eg. for testing)
 }
 
 /**
@@ -26,18 +26,18 @@ export async function startServer(options?: ServerOptions) {
   const db = await createConnection({
     ...ormConfig,
     ...{
-      database: options ? options.database : undefined,
-    },
+      database: options ? options.database : undefined
+    }
   });
 
   // Prepare ApolloServer
   const apolloServer = new ApolloServer({
     context: ({ req }) => ({
       db,
-      req,
+      req
     }),
     resolvers,
-    typeDefs: importSchema('./be/schema/schema.graphql'),
+    typeDefs: importSchema("./be/schema/schema.graphql")
   });
   apolloServer.applyMiddleware({ app: expressApp });
 
@@ -48,12 +48,16 @@ export async function startServer(options?: ServerOptions) {
   // Start express server
   const httpServer = expressApp.listen(process.env.PORT, () => {
     // tslint:disable-next-line no-console
-    console.log(`Server started, listening on port ${process.env.PORT} for incoming requests.`);
+    console.log(
+      `Server started, listening on port ${
+        process.env.PORT
+      } for incoming requests.`
+    );
   });
 
   // Close the db connection when server exits
-  httpServer.on('close', () => {
-    console.log('App shutting down...');
+  httpServer.on("close", () => {
+    console.log("App shutting down...");
     db.close();
   });
 

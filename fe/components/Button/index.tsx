@@ -1,6 +1,6 @@
-import * as React from 'react';
+import * as React from "react";
 
-import css from './styles.scss';
+import css from "./styles.scss";
 
 interface Props {
   className?: string;
@@ -12,7 +12,7 @@ export default class Text extends React.Component<Props> {
     const { children, className, disabled } = this.props;
     return (
       <button
-        className={`${css.button} ${className || ''}`}
+        className={`${css.button} ${className || ""}`}
         disabled={disabled}
         type="submit"
       >
